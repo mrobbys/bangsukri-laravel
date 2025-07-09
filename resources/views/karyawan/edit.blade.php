@@ -6,7 +6,7 @@
             <h3>Ubah Data Karyawan</h3>
         </div>
         <div class="col-md-6">
-            <a href="{{ route('ruang.index') }}" class="btn btn-primary btn-sm float-end">
+            <a href="{{ route('karyawan.index') }}" class="btn btn-primary btn-sm float-end">
                 <i class="fa fa-arrow-circle left"></i> Kembali
             </a>
         </div>
@@ -21,6 +21,20 @@
                 <input type="text" class="form-control @error('nama_karyawan') is-invalid @enderror" name="nama_karyawan"
                     id="nama_karyawan" value="{{ old('nama_karyawan') ?? $karyawan->nama_karyawan }}" required>
                 @error('nama_karyawan')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="jabatan_id">Jabatan</label>
+                <select name="jabatan_id" id="jabatan_id" class="form-control @error('jabatan_id') is-invalid @enderror">
+                    <option value="" selected>--- Pilih Jabatan ---</option>
+                    @foreach ($jabatans as $jabatan)
+                        <option value="{{ $jabatan->id }}" @selected(old('jabatan_id', $karyawan->jabatan_id) == $jabatan->id)>
+                            {{ $jabatan->nama_jabatan }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('jabatan_id')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>

@@ -13,6 +13,10 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>{{ $title ?? 'bangsukri' }}</title>
     <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
         body {
             background-color: #f3f3f3;
         }
@@ -26,6 +30,7 @@
 
     {{-- sweetalert2 --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @stack('scripts')
     <script>
         // Notifikasi Sukses
         @if (session()->has('alert'))
@@ -48,11 +53,19 @@
                 // Mencegah form dikirim secara langsung
                 event.preventDefault();
 
-                // Mengambil form terdekat dari tombol yang diklik
+                // Mengambil form terdekat dari tombol yang diklik dan menyimpan jenis form
                 const form = this.closest('form');
+                const type = this.dataset.formType;
+
+                let title = 'Anda yakin ingin menyimpan perubahan?';
+                if (type === 'personal') {
+                    title = 'Anda yakin ingin mengubah data personal?';
+                } else if (type === 'password') {
+                    title = 'Anda yakin ingin mengganti password?';
+                }
 
                 Swal.fire({
-                    title: 'Anda yakin ingin mengubah data?',
+                    title: title,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

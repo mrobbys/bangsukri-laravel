@@ -3,10 +3,10 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <h3>Karyawan</h3>
+            <h3>Jabatan</h3>
         </div>
         <div class="col-md-6">
-            <a href="{{ route('karyawan.create') }}" class="btn btn-success btn-sm float-end">
+            <a href="{{ route('jabatan.create') }}" class="btn btn-success btn-sm float-end">
                 <i class="fa fa-plus-circle"></i> Tambah
             </a>
         </div>
@@ -17,22 +17,18 @@
                 <thead>
                     <tr>
                         <th scope="col" style="width: 50px">#</th>
-                        <th scope="col">Nama Karyawan</th>
-                        <th scope="col">Jabatan</th>
-                        <th scope="col">Nomor HP</th>
-                        <th scope="col">Alamat</th>
+                        <th scope="col">Nama Jabatan</th>
+                        <th scope="col">Total</th>
                         <th style="width: 200px">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($karyawans as $karyawan)
+                    @forelse ($jabatans as $jabatan)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $karyawan['nama_karyawan'] }}</td>
-                            <td>{{ $karyawan['jabatan']->nama_jabatan }}</td>
-                            <td>{{ $karyawan['nomor_hp'] }}</td>
-                            <td>{{ $karyawan['alamat'] }}</td>
-                            <td>@include('karyawan.action')</td>
+                            <td>{{ $jabatan['nama_jabatan'] }}</td>
+                            <td>{{ $jabatan->karyawans->count() }}</td>
+                            <td>@include('jabatan.action')</td>
                         </tr>
                     @empty
                         <tr>

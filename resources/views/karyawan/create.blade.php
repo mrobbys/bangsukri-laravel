@@ -19,15 +19,28 @@
             <div class="mb-3">
                 <label for="nama_karyawan">Nama Karyawan</label>
                 <input type="text" class="form-control @error('nama_karyawan') is-invalid @enderror" name="nama_karyawan"
-                    id="nama_karyawan" value="{{ old('nama_karyawan') }}" >
+                    id="nama_karyawan" value="{{ old('nama_karyawan') }}">
                 @error('nama_karyawan')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="jabatan_id">Nama Jabatan</label>
+                <select name="jabatan_id" id="jabatan_id" class="form-control @error('jabatan_id') is-invalid @enderror">
+                    <option value="" selected>--- Pilih Jabatan ---</option>
+                    @foreach ($jabatans as $jabatan)
+                        <option value="{{ $jabatan->id }}" @selected(old('jabatan_id') == $jabatan->id)>{{ $jabatan->nama_jabatan }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('jabatan_id')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
             <div class="mb-3">
                 <label for="nomor_hp">Nomor Handphone</label>
                 <input type="text" class="form-control @error('nomor_hp') is-invalid @enderror" name="nomor_hp"
-                    id="nomor_hp" value="{{ old('nomor_hp') }}" >
+                    id="nomor_hp" value="{{ old('nomor_hp') }}">
                 @error('nomor_hp')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -35,7 +48,7 @@
             <div class="mb-3">
                 <label for="alamat">Alamat</label>
                 <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat"
-                    id="alamat" value="{{ old('alamat') }}" >
+                    id="alamat" value="{{ old('alamat') }}">
                 @error('alamat')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror

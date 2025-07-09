@@ -8,16 +8,18 @@ use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangMasukController;
+use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\ProfileController;
 
 
-// --- Auth Login, Register & Logout ---
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'loginProcess'])->name('loginProcess');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'registerProcess'])->name('registerProcess');
-// --- Auth Login, Register & Logout ---
+// --- Route guest ---
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'loginProcess'])->name('loginProcess');
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'registerProcess'])->name('registerProcess');
+});
+// --- Route guest ---
 
 // --- Lupa Password Manual (tanpa kode otp atau kirim link ke email) ---
 // Menampilkan form input email
@@ -33,6 +35,10 @@ Route::get('/reset-password', [AuthController::class, 'showResetPasswordForm'])-
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 // --- Lupa Password Manual (tanpa kode otp atau kirim link ke email) ---
 
+// --- Logout ---
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// --- Logout ---
+
 // --- Route yang membutuhkan autentikasi dengan role user ---
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::resource('ruang', RuangController::class);
@@ -40,9 +46,10 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::resource('pemasok', PemasokController::class);
     Route::resource('barang', BarangController::class);
     Route::resource('barang_masuk', BarangMasukController::class);
-    Route::get('/profile/{id}', [ProfileController::class, 'index'])->name('profile');
-    Route::put('/profile/{id}/personal', [ProfileController::class, 'changePersonal'])->name('profile.changePersonal');
-    Route::put('/profile/{id}/password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
+    Route::resource('jabatan', JabatanController::class);
+    Route::get('/profile/{username}', [ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile/{username}/personal', [ProfileController::class, 'changePersonal'])->name('profile.changePersonal');
+    Route::put('/profile/{username}/password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 });
 // --- Route yang membutuhkan autentikasi dengan role user ---

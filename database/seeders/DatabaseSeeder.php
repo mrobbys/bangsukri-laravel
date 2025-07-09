@@ -15,20 +15,23 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(RuangSeeder::class);
-        $this->call(KaryawanSeeder::class);
         $this->call(PemasokSeeder::class);
         $this->call(BarangSeeder::class);
+        $this->call(JabatanSeeder::class);
+        $this->call(KaryawanSeeder::class);
         $this->call(BarangMasukSeeder::class);
 
         // User::factory(10)->create();
 
         $users = [
             ['name' => 'Admin',
+            'username' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('1'),
             'role' => 'admin'],
 
             ['name' => 'Robby',
+            'username' => 'robby',
             'email' => 'robby@gmail.com',
             'password' => Hash::make('1'),
             'role' => 'user']

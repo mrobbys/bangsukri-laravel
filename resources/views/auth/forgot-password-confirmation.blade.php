@@ -11,7 +11,7 @@
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control @error('email') border-danger @enderror" id="email"
+                        <input type="email" class="form-control text-muted @error('email') border-danger @enderror" id="email"
                             placeholder="example@gmail.com" name="email" value="{{ $email }}" readonly>
                         @error('email')
                             <small class="text-danger">{{ $message }}</small>

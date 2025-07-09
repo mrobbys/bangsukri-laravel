@@ -37,6 +37,17 @@
         <div class="col-md-6 col-lg-3">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                 <div class="text-start w-100">
+                    <h3 class="fs-2">{{ $allJabatan->count() }}</h3>
+                    <p class="fs-5">Jabatan</p>
+                </div>
+                <i class="fas fa-user-tie fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>
+        
+
+        <div class="col-md-6 col-lg-3">
+            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                <div class="text-start w-100">
                     <h3 class="fs-2">{{ $allPemasok->count() }}</h3>
                     <p class="fs-5">Pemasok</p>
                 </div>

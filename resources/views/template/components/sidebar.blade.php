@@ -14,6 +14,9 @@
         <a href="{{ route('karyawan.index') }}"
             class="list-group-item list-group-item-action bg-transparent second-text fw-bold  @if (Request::is('karyawan') || Request::is('karyawan/*')) active @endif"><i
                 class="fas fa-users me-2"></i>Karyawan</a>
+        <a href="{{ route('jabatan.index') }}"
+            class="list-group-item list-group-item-action bg-transparent second-text fw-bold  @if (Request::is('jabatan') || Request::is('jabatan/*')) active @endif"><i
+                class="fas fa-user-tie me-2"></i>Jabatan</a>
         <a href="{{ route('pemasok.index') }}"
             class="list-group-item list-group-item-action bg-transparent second-text fw-bold @if (Request::is('pemasok') || Request::is('pemasok/*')) active @endif"><i
                 class="fas fa-truck me-2"></i>Pemasok</a>

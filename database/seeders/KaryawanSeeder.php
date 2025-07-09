@@ -32,8 +32,9 @@ class KaryawanSeeder extends Seeder
         //     ]);
 
         $karyawans = [
-            ['nama_karyawan' => 'Palui', 'nomor_hp' => '08123456789', 'alamat' => 'Martapura'],
-            ['nama_karyawan' => 'Gabus', 'nomor_hp' => '08123125389', 'alamat' => 'Banjarmasin'],
+            ['nama_karyawan' => 'Palui', 'nomor_hp' => '08123456789', 'alamat' => 'Martapura', 'jabatan_id' => 1],
+            ['nama_karyawan' => 'Gabus', 'nomor_hp' => '08123125389', 'alamat' => 'Banjarmasin' , 'jabatan_id' => 2],
+            ['nama_karyawan' => 'Udin', 'nomor_hp' => '08123125483', 'alamat' => 'Banjarbaru' , 'jabatan_id' => 3],
         ];
         // Gunakan perulangan dan metode create() untuk memasukkan data
         foreach ($karyawans as $karyawan) {

@@ -16,7 +16,7 @@
                     <i class="fas fa-user me-2"></i>{{ Auth::user()->name }}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{ route('profile', Auth::user()->id)  }}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ route('profile', Auth::user()->username)  }}">Profile</a></li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" class="">
                             @csrf

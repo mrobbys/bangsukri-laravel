@@ -11,7 +11,11 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user(); // langsung pakai ini, tidak perlu Auth::find()
         return view('profile.index', [
             "title" => "Profile",
             "user" => $user
@@ -24,11 +28,16 @@ class ProfileController extends Controller
 
         $validatedData = $request->validate(
             [
-                'name' => 'required',
+                'name' => 'required||regex:/^[a-zA-Z\s]+$/u',
+                'username' => 'required|regex:/^[a-zA-Z0-9]+$/|unique:users,username,' . $user->id,
                 'email' => 'required|email|unique:users,email,' . $user->id,
             ],
             [
                 'name.required' => 'Nama harus diisi.',
+                'name.regex' => 'Nama hanya boleh mengandung huruf dan spasi.',
+                'username.required' => 'Username harus diisi.',
+                'username.regex' => 'Username hanya boleh mengandung huruf dan angka.',
+                'username.unique' => 'Username sudah digunakan oleh pengguna lain.',
                 'email.required' => 'Email harus diisi.',
                 'email.email' => 'Format email tidak valid.',
                 'email.unique' => 'Email sudah digunakan oleh pengguna lain.',
@@ -36,12 +45,12 @@ class ProfileController extends Controller
         );
 
         if ($user->update($validatedData)) {
-            return redirect()->route('profile', ['name' => $user->name])->with(
+            return redirect()->route('profile', ['username' => $user->username])->with(
                 'alert',
                 [
                     'icon' => 'success',
                     'title' => 'Berhasil!',
-                    'message' => 'Data berhasil diubah.'
+                    'text' => 'Data personal berhasil diubah.'
                 ]
             );
         }
@@ -49,7 +58,7 @@ class ProfileController extends Controller
         return back()->with('alert', [
             'icon' => 'error',
             'title' => 'Gagal!',
-            'message' => 'Data gagal diubah.'
+            'text' => 'Data gagal diubah.'
         ]);
     }
 
@@ -79,10 +88,10 @@ class ProfileController extends Controller
             if ($user->update([
                 'password' => Hash::make($validatedData['new_password'])
             ])) {
-                return redirect()->route('profile', ['name' => $user->name])->with('alert', [
+                return redirect()->route('profile', ['username' => $user->username])->with('alert', [
                     'icon' => 'success',
                     'title' => 'Berhasil!',
-                    'message' => 'Password berhasil diubah.'
+                    'text' => 'Password berhasil diubah.'
                 ]);
             }
         }
@@ -92,7 +101,7 @@ class ProfileController extends Controller
             [
                 'icon' => 'error',
                 'title' => 'Gagal!',
-                'message' => 'Password gagal diubah.'
+                'text' => 'Password gagal diubah.'
             ]
         );
     }

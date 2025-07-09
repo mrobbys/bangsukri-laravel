@@ -17,6 +17,11 @@ class Karyawan extends Model
         return $this->hasMany(BarangMasuk::class);
     }
 
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class);
+    }
+
     /**
      * Otomatis membuat slug dari nama_karyawan saat data disimpan.
      */

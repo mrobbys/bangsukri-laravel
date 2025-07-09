@@ -39,7 +39,7 @@ class AuthController extends Controller
                 return redirect()->route('admin.index')->with('alert', [
                     'icon' => 'success',
                     'title' => 'Login Berhasil!',
-                    'text' => 'Selamat datang Admin, ' . Auth::user()->name
+                    'text' => 'Selamat datang Admin, ' . Auth::user()->username
                 ]);
             }
 
@@ -79,12 +79,16 @@ class AuthController extends Controller
         $validatedData = $request->validate(
             [
                 'name' => 'required|regex:/^[a-zA-Z\s]+$/u',
+                'username' => 'required|regex:/^[a-zA-Z0-9]+$/|unique:users,username',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|confirmed'
             ],
             [
                 'name.required' => 'Nama harus diisi',
                 'name.regex' => 'Nama hanya boleh mengandung huruf dan spasi',
+                'username.required' => 'Username harus diisi',
+                'username.regex' => 'Username tidak boleh mengandung spasi',
+                'username.unique' => 'Username sudah terdaftar',
                 'email.required' => 'Email harus diisi',
                 'email.email' => 'Email tidak valid',
                 'email.unique' => 'Email sudah terdaftar',
@@ -95,6 +99,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $validatedData['name'],
+            'username' => $validatedData['username'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password'])
         ]);

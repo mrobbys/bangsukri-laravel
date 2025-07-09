@@ -38,7 +38,7 @@
             </div>
             <div class="mb-3">
                 <label for="pemasok_id">Pemasok</label>
-                <select class="form-control" name="pemasok_id" id="pemasok_id" @error('pemasok_id') is-invalid @enderror>
+                <select class="form-control @error('pemasok_id') is-invalid @enderror" name="pemasok_id" id="pemasok_id" >
                     <option value="">Pilih Pemasok</option>
                     @foreach ($pemasoks as $pemasok)
                         <option value="{{ $pemasok->id }}" @selected(old('pemasok_id', $barang_masuk->pemasok_id) == $pemasok->id)>

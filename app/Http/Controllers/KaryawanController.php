@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jabatan;
 use App\Models\Karyawan;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class KaryawanController extends Controller
      */
     public function index()
     {
-        $karyawans = Karyawan::all();
+        $karyawans = Karyawan::with('jabatan')->get();
         return view('karyawan.index', [
             "title" => "Karyawan",
             "karyawans" => $karyawans,
@@ -24,8 +25,10 @@ class KaryawanController extends Controller
      */
     public function create()
     {
+        $jabatans = Jabatan::all();
         return view('karyawan.create', [
             "title" => "Karyawan",
+            "jabatans" => $jabatans
         ]);
     }
 
@@ -34,14 +37,37 @@ class KaryawanController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'nama_karyawan' => 'required|min:3|max:255',
-            'nomor_hp' => 'required|min:11|max:255|unique:karyawan',
-            'alamat' => 'required|min:3|max:255',
-        ]);
+        $validatedData = $request->validate(
+            [
+                'nama_karyawan' => 'required|min:3|max:255',
+                'jabatan_id' => 'required',
+                'nomor_hp' => 'required|min:11|max:255|unique:karyawan',
+                'alamat' => 'required|min:3|max:255',
+            ],
+            [
+                'nama_karyawan.required' => 'Nama karyawan harus diisi',
+                'nama_karyawan.min' => 'Nama karyawan minimal 3 karakter',
+                'nama_karyawan.max' => 'Nama karyawan maksimal 255 karakter',
+                'jabatan_id.required' => 'Jabatan harus dipilih',
+                'nomor_hp.required' => 'Nomor HP harus diisi',
+                'nomor_hp.min' => 'Nomor HP minimal 11 karakter',
+                'nomor_hp.max' => 'Nomor HP maksimal 255 karakter',
+                'nomor_hp.unique' => 'Nomor HP sudah terdaftar',
+                'alamat.required' => 'Alamat harus diisi',
+                'alamat.min' => 'Alamat minimal 3 karakter',
+                'alamat.max' => 'Alamat maksimal 255 karakter',
+            ]
+        );
 
         Karyawan::create($validatedData);
-        return redirect('/karyawan')->with('success', 'Karyawan baru berhasil ditambahkan');
+        return redirect('/karyawan')->with(
+            'alert',
+            [
+                'icon' => 'success',
+                'title' => 'Berhasil!',
+                'text' => 'Karyawan baru berhasil ditambahkan',
+            ]
+        );
     }
 
     /**
@@ -58,10 +84,12 @@ class KaryawanController extends Controller
     public function edit(Karyawan $karyawan)
     {
         $karyawans = Karyawan::all();
+        $jabatans = Jabatan::all();
         return view('karyawan.edit', [
             "title" => "Karyawan",
             "karyawans" => $karyawans,
             "karyawan" => $karyawan,
+            "jabatans" => $jabatans
         ]);
     }
 
@@ -70,19 +98,43 @@ class KaryawanController extends Controller
      */
     public function update(Request $request, Karyawan $karyawan)
     {
-        $request->validate([
-            'nama_karyawan' => 'required|min:3|max:255',
-            'nomor_hp' => 'required|min:11|max:255|unique:karyawan,nomor_hp,' . $karyawan->id,
-            'alamat' => 'required|min:3|max:255',
-        ]);
+        $request->validate(
+            [
+                'nama_karyawan' => 'required|min:3|max:255',
+                'jabatan_id' => 'required',
+                'nomor_hp' => 'required|min:11|max:255|unique:karyawan,nomor_hp,' . $karyawan->id,
+                'alamat' => 'required|min:3|max:255',
+            ],
+            [
+                'nama_karyawan.required' => 'Nama karyawan harus diisi',
+                'nama_karyawan.min' => 'Nama karyawan minimal 3 karakter',
+                'nama_karyawan.max' => 'Nama karyawan maksimal 255 karakter',
+                'jabatan_id.required' => 'Jabatan harus dipilih',
+                'nomor_hp.required' => 'Nomor HP harus diisi',
+                'nomor_hp.min' => 'Nomor HP minimal 11 karakter',
+                'nomor_hp.max' => 'Nomor HP maksimal 255 karakter',
+                'nomor_hp.unique' => 'Nomor HP sudah terdaftar',
+                'alamat.required' => 'Alamat harus diisi',
+                'alamat.min' => 'Alamat minimal 3 karakter',
+                'alamat.max' => 'Alamat maksimal 255 karakter',
+            ]
+        );
 
         $karyawan->update([
             'nama_karyawan' => $request->nama_karyawan,
+            'jabatan_id' => $request->jabatan_id,
             'nomor_hp' => $request->nomor_hp,
             'alamat' => $request->alamat
         ]);
 
-        return redirect('/karyawan')->with('success', 'Karyawan berhasil diupdate');
+        return redirect('/karyawan')->with(
+            'alert',
+            [
+                'icon' => 'success',
+                'title' => 'Berhasil!',
+                'text' => 'Karyawan berhasil diubah',
+            ]
+        );
     }
 
     /**
@@ -91,6 +143,13 @@ class KaryawanController extends Controller
     public function destroy(Karyawan $karyawan)
     {
         Karyawan::destroy($karyawan->id);
-        return redirect('/karyawan')->with('success', 'Karyawan berhasil dihapus');
+        return redirect('/karyawan')->with(
+            'alert',
+            [
+                'icon' => 'success',
+                'title' => 'Berhasil!',
+                'text' => 'Karyawan berhasil dihapus',
+            ]
+        );
     }
 }
