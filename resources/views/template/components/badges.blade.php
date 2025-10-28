@@ -1,7 +1,8 @@
     <div class="row g-3 my-2">
 
         <div class="my-3">
-            <div>Anda Login dengan akun: <strong>{{ Auth::user()->email }}</strong> role anda: <strong>{{ Auth::user()->role }}</strong></div>
+            <div>Anda Login dengan akun: <strong>{{ Auth::user()->email }}</strong> role anda:
+                <strong>{{ Auth::user()->getRoleNames()->first() }}</strong></div>
         </div>
 
         <div class="col-md-6 col-lg-3">
@@ -43,7 +44,7 @@
                 <i class="fas fa-user-tie fs-1 primary-text border rounded-full secondary-bg p-3"></i>
             </div>
         </div>
-        
+
 
         <div class="col-md-6 col-lg-3">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">

@@ -24,17 +24,17 @@
     // sweetlert2
 
     // modal untuk success
-    @if (session()->has('alert'))
-        Swal.fire({
-            title: '{{ e(session('alert.title')) }}',
-            text: '{{ e(session('alert.text')) }}',
-            icon: '{{ e(session('alert.icon')) }}',
-            showConfirmButton: false,
-            timer: 5000,
-            showCloseButton: true,
-            timerProgressBar: true,
-        })
-    @endif
+    @if (isset($alert))
+    Swal.fire({
+        title: '{{ e($alert['title']) }}',
+        text: '{{ e($alert['text']) }}',
+        icon: '{{ e($alert['icon']) }}',
+        showConfirmButton: true,
+        timer: 5000,
+        showCloseButton: true,
+        timerProgressBar: true,
+    })
+@endif
 
     // modal untuk error
     // @if (session()->has('error'))

@@ -40,9 +40,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // --- Logout ---
 
 // --- Route yang membutuhkan autentikasi dengan role user ---
-Route::middleware(['auth', 'role:user'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::resource('ruang', RuangController::class);
-    Route::resource('karyawan', KaryawanController::class);
+    Route::resource('karyawan', KaryawanController::class)->middleware('role:super-admin');
     Route::resource('pemasok', PemasokController::class);
     Route::resource('barang', BarangController::class);
     Route::resource('barang_masuk', BarangMasukController::class);
@@ -51,13 +51,22 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::put('/profile/{username}/personal', [ProfileController::class, 'changePersonal'])->name('profile.changePersonal');
     Route::put('/profile/{username}/password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::middleware(['role:super-admin'])->group(function () {
+        Route::resource('roles', App\Http\Controllers\RoleController::class)->except(['show']);
+
+        // fitur reset password
+        Route::post('/users/{user}/reset-password', [App\Http\Controllers\UserController::class, 'resetPassword'])->name('users.resetPassword');
+
+        Route::resource('users', App\Http\Controllers\UserController::class)->except(['show']);
+    });
 });
 // --- Route yang membutuhkan autentikasi dengan role user ---
 
 // --- Route yang membutuhkan autentikasi dengan role admin ---
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return view('admin.index');
-    })->name('admin.index');
-});
+// Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+//     Route::get('/', function () {
+//         return view('admin.index');
+//     })->name('admin.index');
+// });
 // --- Route yang membutuhkan autentikasi dengan role admin ---

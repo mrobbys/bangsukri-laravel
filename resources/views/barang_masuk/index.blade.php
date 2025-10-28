@@ -1,15 +1,16 @@
 @extends('template.components.default')
 
 @section('content')
-
     <div class="row">
         <div class="col-md-6">
             <h3>Barang Masuk</h3>
         </div>
         <div class="col-md-6">
-            <a href="{{ route('barang_masuk.create') }}" class="btn btn-success btn-sm float-end">
-                <i class="fa fa-plus-circle"></i> Tambah
-            </a>
+            @can('create barang masuk')
+                <a href="{{ route('barang_masuk.create') }}" class="btn btn-success btn-sm float-end">
+                    <i class="fa fa-plus-circle"></i> Tambah
+                </a>
+            @endcan
         </div>
     </div>
     <div class="row mt-3">
@@ -22,7 +23,9 @@
                         <th scope="col">Sumber Dana</th>
                         <th scope="col">Pemasok</th>
                         <th scope="col">Penerima</th>
-                        <th style="width: 200px">Aksi</th>
+                        @can('edit barang masuk')
+                            <th style="width: 200px">Aksi</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>

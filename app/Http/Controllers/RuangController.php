@@ -13,9 +13,11 @@ class RuangController extends Controller
     public function index()
     {
         $ruangs = Ruang::all();
+        $alert = session()->pull('alert'); // pull akan mengambil dan menghapus session
         return view('ruang.index', [
             "title" => "Ruang",
             "ruangs" => $ruangs,
+            "alert" => $alert
         ]);
     }
 

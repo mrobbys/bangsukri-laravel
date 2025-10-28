@@ -34,14 +34,20 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            // cek role apakah admin
-            if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin.index')->with('alert', [
-                    'icon' => 'success',
-                    'title' => 'Login Berhasil!',
-                    'text' => 'Selamat datang Admin, ' . Auth::user()->username
-                ]);
-            }
+            // // cek role apakah admin
+            // if (Auth::user()->role === 'admin') {
+            //     return redirect()->route('admin.index')->with('alert', [
+            //         'icon' => 'success',
+            //         'title' => 'Login Berhasil!',
+            //         'text' => 'Selamat datang Admin, ' . Auth::user()->username
+            //     ]);
+            // }
+
+            // return redirect()->route('dashboard')->with('alert', [
+            //     'icon' => 'success',
+            //     'title' => 'Login Berhasil!',
+            //     'text' => 'Selamat datang, ' . Auth::user()->name
+            // ]);
 
             return redirect()->route('dashboard')->with('alert', [
                 'icon' => 'success',

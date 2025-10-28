@@ -5,6 +5,13 @@
         <a href="{{ route('dashboard') }}"
             class="list-group-item list-group-item-action bg-transparent second-text @if (Request::is('') || Request::is('/*')) active @endif"><i
                 class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+        @hasrole('super-admin')
+            <a href="{{ route('users.index') }}" class="list-group-item list-group-item-action bg-transparent second-text @if (Request::is('users') || Request::is('users/*')) active @endif"><i
+                    class="fas fa-user me-2"></i>Manajemen User</a>
+            <a href="{{ route('roles.index') }}"
+                class="list-group-item list-group-item-action bg-transparent second-text @if (Request::is('roles') || Request::is('roles/*')) active @endif"><i
+                    class="fas fa-user-shield me-2"></i>Manajemen Role</a>
+        @endhasrole
         <a href="{{ route('barang_masuk.index') }}"
             class="list-group-item list-group-item-action bg-transparent second-text fw-bold @if (Request::is('barang_masuk') || Request::is('barang_masuk/*')) active @endif"><i
                 class="fas fa-warehouse me-2"></i>Barang Masuk</a>
@@ -25,7 +32,8 @@
                 class="fas fa-box me-2"></i>Barang</a>
         <form action="{{ route('logout') }}" method="post">
             @csrf
-            <button type="submit" class="logout-button list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+            <button type="submit"
+                class="logout-button list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                     class="fas fa-power-off me-2"></i>Logout</button>
         </form>
     </div>
